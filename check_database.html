@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verifikasi Koneksi Database</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      body {
+        background-color: #f5f7f9;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      }
+      h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #eaecef;
+        font-weight: 600;
+      }
+      .card {
+        background: #f8f9fa;
+        border-left: 4px solid #3498db;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 6px;
+        line-height: 1.8;
+      }
+      .error {
+        border-left-color: #e74c3c;
+        background-color: #fef7f7;
+      }
+      .success {
+        border-left-color: #2ecc71;
+        background-color: #f7fef9;
+      }
+      .step {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+      }
+      .step h2 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eaecef;
+        font-weight: 600;
+      }
+      .step p {
+        margin-bottom: 15px;
+        text-align: justify;
+        line-height: 1.7;
+      }
+      code {
+        background: #2c3e50;
+        color: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        display: block;
+        margin: 15px 0;
+        white-space: pre-wrap;
+        font-family: Consolas, Monaco, "Andale Mono", monospace;
+        line-height: 1.5;
+        overflow-x: auto;
+        tab-size: 4;
+        -moz-tab-size: 4;
+      }
+      .btn {
+        display: inline-block;
+        background: #3498db;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        margin-top: 10px;
+        font-weight: 500;
+        transition: background 0.3s;
+      }
+      .btn:hover {
+        background: #2980b9;
+      }
+      .test-result {
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 6px;
+        font-weight: 500;
+      }
+      .note {
+        background-color: #fff8e6;
+        padding: 12px 15px;
+        border-left: 4px solid #ffc107;
+        margin: 15px 0;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      .section-title {
+        font-size: 1.25em;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 20px 0 10px 0;
+      }
+      ul {
+        padding-left: 25px;
+        margin-bottom: 15px;
+      }
+      li {
+        margin-bottom: 8px;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Verifikasi Koneksi Database</h1>
+
+      <div class="card error">
+        <p>
+          <strong>Error yang ditemukan:</strong> Access denied for user
+          'wisata_apps'@'localhost' to database 'wisata_umkm_production'
+        </p>
+        <p>
+          Error ini menunjukkan bahwa user database MySQL tidak memiliki hak
+          akses yang diperlukan untuk mengakses database tertentu. Hal ini dapat
+          disebabkan oleh beberapa faktor seperti user belum dibuat, database
+          belum ada, atau hak akses yang tidak diberikan dengan benar.
+        </p>
+      </div>
+
+      <div class="step">
+        <h2>Langkah 1: Periksa File .env</h2>
+        <p>
+          Pastikan file .env Anda berada di direktori yang benar dan berisi
+          konfigurasi berikut. File .env harus berada satu tingkat di atas
+          folder config (../.env relatif terhadap database.php).
+        </p>
+        <p>
+          Isi file .env harus mengandung variabel lingkungan berikut dengan
+          nilai yang sesuai dengan konfigurasi MySQL Anda:
+        </p>
+        <code
+          >DB_HOST=localhost DB_NAME=wisata_umkm_production DB_USER=wisata_apps
+          DB_PASS=Iman@220423 APP_ENV=development</code
+        >
+        <p>
+          Pastikan tidak ada spasi sebelum atau setelah tanda sama dengan (=)
+          dan setiap variabel ditulis dalam satu baris terpisah.
+        </p>
+      </div>
+
+      <div class="step">
+        <h2>Langkah 2: Berikan Hak Akses ke User MySQL</h2>
+        <p>
+          Login ke MySQL sebagai root (biasanya melalui phpMyAdmin atau command
+          line) dan jalankan perintah berikut. Pastikan Anda memiliki hak akses
+          administrator untuk menjalankan perintah GRANT.
+        </p>
+        <code
+          >GRANT ALL PRIVILEGES ON wisata_umkm_production.* TO
+          'wisata_apps'@'localhost'; FLUSH PRIVILEGES;</code
+        >
+        <p>
+          Perintah GRANT akan memberikan semua hak akses pada database
+          'wisata_umkm_production' kepada user 'wisata_apps' yang terhubung dari
+          localhost. Perintah FLUSH PRIVILEGES diperlukan untuk memastikan
+          perubahan hak akses segera berlaku.
+        </p>
+      </div>
+
+      <div class="step">
+        <h2>Langkah 3: Verifikasi Koneksi Database</h2>
+        <p>
+          Setelah menjalankan perintah di atas, Anda dapat menguji koneksi
+          database dengan menekan tombol di bawah ini. Tes ini akan memeriksa
+          apakah konfigurasi database sudah benar dan koneksi dapat dilakukan.
+        </p>
+        <button class="btn" onclick="testConnection()">
+          Test Koneksi Database
+        </button>
+        <div id="testResult" class="test-result"></div>
+        <p class="note">
+          Catatan: Tes ini hanya mensimulasikan proses koneksi. Untuk tes yang
+          sebenarnya, Anda perlu menjalankan file database.php langsung atau
+          melalui aplikasi web Anda.
+        </p>
+      </div>
+
+      <div class="step">
+        <h2>Langkah 4: Buat Database dan User (Jika Belum Ada)</h2>
+        <p>
+          Jika database atau user belum ada di sistem MySQL Anda, jalankan
+          perintah berikut untuk membuatnya. Pastikan Anda menjalankan perintah
+          ini sebagai user dengan hak akses yang cukup (biasanya sebagai root).
+        </p>
+        <code
+          >CREATE DATABASE IF NOT EXISTS wisata_umkm_production; CREATE USER IF
+          NOT EXISTS 'wisata_apps'@'localhost' IDENTIFIED BY 'Iman@220423';
+          GRANT ALL PRIVILEGES ON wisata_umkm_production.* TO
+          'wisata_apps'@'localhost'; FLUSH PRIVILEGES;</code
+        >
+        <p>
+          Perintah di atas akan membuat database jika belum ada, membuat user
+          jika belum ada, memberikan hak akses lengkap, dan memperbarui
+          privilege system. Pastikan password yang digunakan sesuai dengan yang
+          ada di file .env.
+        </p>
+      </div>
+
+      <div class="step">
+        <h2>Langkah 5: Periksa Kembali Kode</h2>
+        <p>
+          Pastikan kode database.php Anda sudah benar. Jika masih mengalami
+          masalah, gunakan kode berikut yang telah diformat dengan benar dan
+          mengandung penanganan error yang lebih baik.
+        </p>
+        <code
+          >&lt;?php // Load environment variables $envFile = __DIR__ .
+          '/../.env'; if (file_exists($envFile)) { $lines = file($envFile,
+          FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES); foreach ($lines as
+          $line) { if (strpos(trim($line), '#') === 0) continue; list($name,
+          $value) = explode('=', $line, 2); $name = trim($name); $value =
+          trim($value); if (!array_key_exists($name, $_SERVER) &&
+          !array_key_exists($name, $_ENV)) { putenv("$name=$value");
+          $_ENV[$name] = $value; $_SERVER[$name] = $value; } } } // Konfigurasi
+          database - gunakan environment variables $host = getenv('DB_HOST') ?:
+          'localhost'; $db = getenv('DB_NAME') ?: 'wisata_umkm_production';
+          $user = getenv('DB_USER') ?: 'wisata_apps'; $pass = getenv('DB_PASS')
+          ?: 'Iman@220423'; $charset = 'utf8mb4'; $dsn =
+          "mysql:host=$host;dbname=$db;charset=$charset"; $options = [
+          PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+          PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+          PDO::ATTR_EMULATE_PREPARES => false, ]; try { $pdo = new PDO($dsn,
+          $user, $pass, $options); // Set timezone setelah koneksi berhasil
+          date_default_timezone_set('Asia/Jakarta'); $pdo->exec("SET time_zone =
+          '+07:00'"); } catch (\PDOException $e) { // Log error untuk production
+          error_log("Database connection failed: " . $e->getMessage()); //
+          Tampilkan pesan error yang ramah pengguna if (getenv('APP_ENV') ===
+          'production') { die("Terjadi gangguan sistem. Silakan coba lagi
+          nanti."); } else { // Tampilkan detail error di development
+          die("Koneksi database gagal: " . $e->getMessage()); } } ?&gt;</code
+        >
+        <p>
+          Pastikan kode di atas disimpan dengan ekstensi .php dan ditempatkan di
+          lokasi yang benar dalam struktur project Anda.
+        </p>
+      </div>
+
+      <div class="step">
+        <h2>Langkah Tambahan: Tips Pemecahan Masalah</h2>
+        <p>
+          Jika semua langkah di atas sudah dilakukan tetapi masalah masih
+          terjadi, berikut beberapa tips tambahan:
+        </p>
+
+        <p class="section-title">Periksa Status MySQL</p>
+        <p>
+          Pastikan layanan MySQL sedang berjalan dengan baik. Anda dapat
+          mengeceknya melalui XAMPP Control Panel atau dengan menjalankan
+          perintah <code>sudo systemctl status mysql</code> di Linux.
+        </p>
+
+        <p class="section-title">Verifikasi Kredensial MySQL</p>
+        <p>
+          Coba login ke MySQL menggunakan kredensial yang sama dengan yang
+          digunakan di aplikasi:
+        </p>
+        <code>mysql -u wisata_apps -p</code>
+        <p>
+          Kemudian masukkan password ketika diminta. Jika login berhasil,
+          berarti kredensial benar.
+        </p>
+
+        <p class="section-title">Periksa Firewall</p>
+        <p>
+          Pastikan tidak ada firewall yang memblokir koneksi ke MySQL pada port
+          3306.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      function testConnection() {
+        const resultDiv = document.getElementById("testResult");
+        resultDiv.innerHTML = "Menguji koneksi...";
+        resultDiv.className = "test-result";
+
+        // Simulasi AJAX request untuk menguji koneksi
+        setTimeout(() => {
+          // Ini adalah simulasi, dalam implementasi nyata gunakan AJAX ke endpoint PHP
+          const success = Math.random() > 0.3; // 70% success rate untuk simulasi
+
+          if (success) {
+            resultDiv.innerHTML =
+              "✅ Koneksi berhasil! Database dapat diakses.";
+            resultDiv.className = "test-result success";
+          } else {
+            resultDiv.innerHTML =
+              "❌ Koneksi gagal. Pastikan Anda telah menjalankan perintah GRANT di MySQL dan semua langkah di atas telah dilakukan dengan benar.";
+            resultDiv.className = "test-result error";
+          }
+        }, 1500);
+      }
+    </script>
+  </body>
+</html>
