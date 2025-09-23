@@ -1557,6 +1557,7 @@ if (isset($_GET['page'])) {
             // Initialize on page load
             toggleBackToTop();
             });
+        
     </script>
 </body>
 </html>

@@ -482,6 +482,30 @@ $active_page = 'destinasi';
             padding-left: 5px;
         }
 
+        .footer-map-container {
+            margin-top: 10px;
+        }
+
+        .footer-map {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+            height: 200px;
+        }
+
+        .footer-map:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-map iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
         .social-links {
             display: flex;
             gap: 15px;
@@ -520,6 +544,41 @@ $active_page = 'destinasi';
             background-clip: text;
         }
 
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: var(--transition);
+            box-shadow: var(--card-shadow-hover);
+            z-index: 1000;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(74, 108, 247, 0.4);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .detail-hero {
@@ -539,10 +598,22 @@ $active_page = 'destinasi';
                 font-size: 1rem;
             }
         }
+
+        @media (max-width: 768px) {
+            .footer-map {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-map {
+                height: 160px;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <!-- Navbar -->
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
@@ -805,7 +876,7 @@ $active_page = 'destinasi';
     <footer>
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 mb-5">
+                <div class="col-lg-3 mb-5">
                     <h5 class="footer-title">Wisata<strong class="text-gradient">UMKM</strong></h5>
                     <p class="mb-4">Platform untuk menemukan destinasi wisata terbaik dan mendukung UMKM lokal di sekitarnya.</p>
                     <div class="social-links">
@@ -818,9 +889,9 @@ $active_page = 'destinasi';
                 <div class="col-lg-2 col-md-4 mb-5">
                     <h5 class="footer-title">Tautan</h5>
                     <ul class="footer-links">
-                        <li><a href="index.php">Beranda</a></li>
-                        <li><a href="index.php?page=destinasi">Destinasi</a></li>
-                        <li><a href="index.php?page=umkm">UMKM</a></li>
+                        <li><a href="?page=beranda">Beranda</a></li>
+                        <li><a href="?page=destinasi">Destinasi</a></li>
+                        <li><a href="?page=umkm">UMKM</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-4 mb-5">
@@ -828,16 +899,25 @@ $active_page = 'destinasi';
                     <ul class="footer-links">
                         <li><i class="bi bi-geo-alt me-2"></i> Bengkulu, Indonesia</li>
                         <li><i class="bi bi-envelope me-2"></i> info@wisataumkm.com</li>
-                        <li><i class="bi bi-phone me-2"></i> +62 822 1234 5678</li>
+                        <li><i class="bi bi-phone me-2"></i> +62 123 456 7890</li>
                     </ul>
                 </div>
-                <div class="col-lg-3 col-md-4 mb-5">
-                    <h5 class="footer-title">Jam Operasional</h5>
-                    <ul class="footer-links">
-                        <li>Senin - Jumat: 9:00 - 18:00</li>
-                        <li>Sabtu: 10:00 - 16:00</li>
-                        <li>Minggu: Tutup</li>
-                    </ul>
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <h5 class="footer-title">Lokasi Kami</h5>
+                    <div class="footer-map-container">
+                        <div class="footer-map">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127389.73553205006!2d102.22217615366425!3d-3.825341955555865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e36b01e37e39279%3A0xa079b576e790a6ea!2sBengkulu%2C%20Kota%20Bengkulu%2C%20Bengkulu!5e0!3m2!1sid!2sid!4v1758613744741!5m2!1sid!2sid" 
+                                width="100%" 
+                                height="200" 
+                                style="border:0; border-radius: 8px;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Peta Lokasi WisataUMKM di Bengkulu">
+                            </iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="copyright">
@@ -845,6 +925,11 @@ $active_page = 'destinasi';
             </div>
         </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+        <i class="bi bi-chevron-up"></i>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -925,6 +1010,32 @@ $active_page = 'destinasi';
                 this.alt = 'Gambar tidak ditemukan';
             });
         });
+
+        // Back to Top functionality
+        const backToTopButton = document.getElementById('backToTop');
+            
+        function toggleBackToTop() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        }
+            
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+            
+        // Event listeners
+        window.addEventListener('scroll', toggleBackToTop);
+        backToTopButton.addEventListener('click', scrollToTop);
+            
+        // Initialize on page load
+        toggleBackToTop();
+        
     </script>
 </body>
 </html>
