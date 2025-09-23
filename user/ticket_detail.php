@@ -392,8 +392,8 @@ function formatDate($date) {
         }
 
         .back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(74, 108, 247, 0.4);
+            transform: translateY(-3px) scale(1.05);
+            transition: transform 0.2s ease;
         }
 
         @media (max-width: 768px) {
