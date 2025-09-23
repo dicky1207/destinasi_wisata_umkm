@@ -837,6 +837,41 @@ function timeAgo($datetime) {
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: var(--transition);
+            box-shadow: var(--card-shadow-hover);
+            z-index: 1000;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(74, 108, 247, 0.4);
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .quick-actions {
@@ -943,6 +978,16 @@ function timeAgo($datetime) {
             
             .ticket-actions .btn {
                 width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -1228,6 +1273,11 @@ function timeAgo($datetime) {
         </div>
     </div>
 
+    <!-- Back to Top Button -->
+    <button type="button" class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
@@ -1321,6 +1371,34 @@ function timeAgo($datetime) {
                 });
             });
         });
+
+        // Back to Top functionality
+        const backToTopButton = document.getElementById('backToTop');
+        
+        function toggleBackToTop() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Event listeners
+        window.addEventListener('scroll', toggleBackToTop);
+        backToTopButton.addEventListener('click', function(e){
+            e.preventDefault();
+            scrollToTop();
+        });
+        
+        // Initialize on page load
+        toggleBackToTop();
     </script>
 </body>
 </html>
