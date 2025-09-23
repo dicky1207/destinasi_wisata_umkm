@@ -156,6 +156,10 @@ function formatDate($date) {
             --transition: all 0.3s ease;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: #f8fafc;
             font-family: 'Inter', sans-serif;
@@ -376,7 +380,7 @@ function formatDate($date) {
             opacity: 0;
             visibility: hidden;
             transform: translateY(20px);
-            transition: var(--transition);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: var(--card-shadow-hover);
             z-index: 1000;
         }
@@ -538,29 +542,45 @@ function formatDate($date) {
         });
 
         // Back to Top functionality
-        const backToTopButton = document.getElementById('backToTop');
-        
-        function toggleBackToTop() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('show');
-            } else {
-                backToTopButton.classList.remove('show');
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopButton = document.getElementById('backToTop');
+            
+            if (!backToTopButton) return;
+            
+            let isScrolling;
+            
+            function toggleBackToTop() {
+                window.clearTimeout(isScrolling);
+                
+                isScrolling = setTimeout(function() {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('show');
+                    } else {
+                        backToTopButton.classList.remove('show');
+                    }
+                }, 60);
             }
-        }
-        
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+            
+            function scrollToTop() {
+                if (window.pageYOffset > 0) {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+            
+            // Passive event listener for better performance
+            window.addEventListener('scroll', toggleBackToTop, { passive: true });
+            
+            backToTopButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                scrollToTop();
             });
-        }
-        
-        window.addEventListener('scroll', toggleBackToTop);
-        backToTopButton.addEventListener('click', function(e){
-            e.preventDefault();
-            scrollToTop();
+            
+            // Initial state
+            toggleBackToTop();
         });
-        toggleBackToTop();
     </script>
 </body>
 </html>

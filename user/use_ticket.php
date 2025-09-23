@@ -96,6 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             --transition: all 0.3s ease;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: #f8fafc;
             font-family: 'Inter', sans-serif;
@@ -246,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             opacity: 0;
             visibility: hidden;
             transform: translateY(20px);
-            transition: var(--transition);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: var(--card-shadow-hover);
             z-index: 1000;
         }
@@ -391,30 +395,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-            // Back to Top functionality
+        // Back to Top functionality
+        document.addEventListener('DOMContentLoaded', function() {
             const backToTopButton = document.getElementById('backToTop');
             
+            if (!backToTopButton) return;
+            
+            let isScrolling;
+            
             function toggleBackToTop() {
-                if (window.pageYOffset > 300) {
-                    backToTopButton.classList.add('show');
-                } else {
-                    backToTopButton.classList.remove('show');
-                }
+                window.clearTimeout(isScrolling);
+                
+                isScrolling = setTimeout(function() {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('show');
+                    } else {
+                        backToTopButton.classList.remove('show');
+                    }
+                }, 60);
             }
             
             function scrollToTop() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                if (window.pageYOffset > 0) {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
             }
             
-            window.addEventListener('scroll', toggleBackToTop);
-            backToTopButton.addEventListener('click', function(e){
+            // Passive event listener for better performance
+            window.addEventListener('scroll', toggleBackToTop, { passive: true });
+            
+            backToTopButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 scrollToTop();
             });
+            
+            // Initial state
             toggleBackToTop();
+        });
     </script>
 </body>
 </html>

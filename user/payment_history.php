@@ -99,6 +99,10 @@ function formatDate($date) {
             --transition: all 0.3s ease;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: #f8fafc;
             font-family: 'Inter', sans-serif;
@@ -297,7 +301,7 @@ function formatDate($date) {
             opacity: 0;
             visibility: hidden;
             transform: translateY(20px);
-            transition: var(--transition);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: var(--card-shadow-hover);
             z-index: 1000;
         }
@@ -309,8 +313,8 @@ function formatDate($date) {
         }
 
         .back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(74, 108, 247, 0.4);
+            transform: translateY(-3px) scale(1.05);
+            transition: transform 0.2s ease;
         }
 
         @media (max-width: 768px) {
@@ -424,30 +428,46 @@ function formatDate($date) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-            // Back to Top functionality
+        // Back to Top functionality
+        document.addEventListener('DOMContentLoaded', function() {
             const backToTopButton = document.getElementById('backToTop');
             
+            if (!backToTopButton) return;
+            
+            let isScrolling;
+            
             function toggleBackToTop() {
-                if (window.pageYOffset > 300) {
-                    backToTopButton.classList.add('show');
-                } else {
-                    backToTopButton.classList.remove('show');
-                }
+                window.clearTimeout(isScrolling);
+                
+                isScrolling = setTimeout(function() {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('show');
+                    } else {
+                        backToTopButton.classList.remove('show');
+                    }
+                }, 60);
             }
             
             function scrollToTop() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                if (window.pageYOffset > 0) {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
             }
             
-            window.addEventListener('scroll', toggleBackToTop);
-            backToTopButton.addEventListener('click', function(e){
+            // Passive event listener for better performance
+            window.addEventListener('scroll', toggleBackToTop, { passive: true });
+            
+            backToTopButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 scrollToTop();
             });
+            
+            // Initial state
             toggleBackToTop();
+        });
     </script>
 </body>
 </html>
