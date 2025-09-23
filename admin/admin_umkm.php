@@ -20,8 +20,8 @@ if (isset($_GET['hapus'])) {
     $pdo->beginTransaction();
     
     try {
-        // Hapus data terkait di tabel wishlists
-        $stmt_wishlists = $pdo->prepare("DELETE FROM wishlists WHERE umkm_id = ?");
+        // Hapus data terkait di tabel wishlists (PERBAIKAN)
+        $stmt_wishlists = $pdo->prepare("DELETE FROM wishlists WHERE item_id = ? AND item_type = 'umkm'");
         $stmt_wishlists->execute([$id]);
         
         // Hapus data terkait di tabel reviews
@@ -716,9 +716,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var category = button.getAttribute('data-category');
             var image = button.getAttribute('data-image');
             var rating = button.getAttribute('data-rating');
-            var operationalHours = button.getAttribute('data-operational-hours');
-            var contactPhone = button.getAttribute('data-contact-phone');
-            var contactEmail = button.getAttribute('data-contact-email');
+            var operationalHours = button.getAttribute('data-operational_hours');
+            var contactPhone = button.getAttribute('data-contact_phone');
+            var contactEmail = button.getAttribute('data-contact_email');
             
             var modalTitle = editModal.querySelector('.modal-title');
             var modalId = editModal.querySelector('#edit_id');
