@@ -21,8 +21,8 @@ if (file_exists($envFile)) {
 // Konfigurasi database - gunakan environment variables
 $host = getenv('DB_HOST') ?: 'localhost';
 $db   = getenv('DB_NAME') ?: 'wisata_umkm_production';
-$user = getenv('DB_USER') ?: 'wisata_apps';
-$pass = getenv('DB_PASS') ?: 'Iman@220423';
+$user = getenv('DB_USER') ?: 'production';
+$pass = getenv('DB_PASS') ?: 'productiON#2025';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

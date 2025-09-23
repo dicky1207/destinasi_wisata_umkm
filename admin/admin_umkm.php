@@ -774,9 +774,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             modalCategory.textContent = category;
             modalRating.textContent = rating + ' / 5';
             modalDescription.textContent = description || 'Tidak ada deskripsi';
-            modalOperationalHours.value = operationalHours;
-            modalContactPhone.value = contactPhone;
-            modalContactEmail.value = contactEmail;
         });
         
         // Toggle sidebar on mobile
