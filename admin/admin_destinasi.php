@@ -504,23 +504,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" 
-                                        data-id="<?= $dest['id'] ?>"
-                                        data-name="<?= htmlspecialchars($dest['name']) ?>"
-                                        data-description="<?= htmlspecialchars($dest['description']) ?>"
-                                        data-location="<?= htmlspecialchars($dest['location']) ?>"
-                                        data-price="<?= $dest['price'] ?>"
-                                        data-category="<?= htmlspecialchars($dest['category']) ?>"
-                                        data-image="<?= htmlspecialchars($dest['image']) ?>"
-                                        data-rating="<?= $dest['rating'] ?>"
-                                        data-facilities="<?= htmlspecialchars($dest['facilities']) ?>"
-                                        data-activities="<?= htmlspecialchars($dest['activities']) ?>">
-                                        <i class="bi bi-pencil"></i> Edit
-                                    </button>
-                                    <a href="admin_destinasi.php?hapus=<?= $dest['id'] ?>" class="btn btn-sm btn-danger" 
-                                        onclick="return confirm('Yakin ingin menghapus destinasi ini? Semua data terkait (tiket, ulasan, wishlist) juga akan dihapus permanen.')">
-                                        <i class="bi bi-trash"></i> Hapus
-                                    </a>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <button class="btn btn-sm btn-warning flex-fill" data-bs-toggle="modal" data-bs-target="#editModal" 
+                                            data-id="<?= $dest['id'] ?>"
+                                            data-name="<?= htmlspecialchars($dest['name']) ?>"
+                                            data-description="<?= htmlspecialchars($dest['description']) ?>"
+                                            data-location="<?= htmlspecialchars($dest['location']) ?>"
+                                            data-price="<?= $dest['price'] ?>"
+                                            data-category="<?= htmlspecialchars($dest['category']) ?>"
+                                            data-image="<?= htmlspecialchars($dest['image']) ?>"
+                                            data-rating="<?= $dest['rating'] ?>"
+                                            data-facilities="<?= htmlspecialchars($dest['facilities']) ?>"
+                                            data-activities="<?= htmlspecialchars($dest['activities']) ?>">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </button>
+                                        <a href="admin_destinasi.php?hapus=<?= $dest['id'] ?>" class="btn btn-sm btn-danger flex-fill" 
+                                            onclick="return confirm('Yakin ingin menghapus destinasi ini? Semua data terkait (tiket, ulasan, wishlist) juga akan dihapus permanen.')">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

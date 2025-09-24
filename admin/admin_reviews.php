@@ -250,6 +250,20 @@ if (isset($_POST['ubah_status_review'])) {
             background-color: var(--primary-dark);
             border-color: var(--primary-dark);
         }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .text-nowrap {
+            white-space: nowrap;
+        }
+
+        .btn i {
+            margin-right: 0.25rem;
+        }
         
         /* Alert Styles */
         .alert {
@@ -347,6 +361,13 @@ if (isset($_POST['ubah_status_review'])) {
             
             .action-buttons {
                 flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .action-buttons .btn {
+                min-width: 100px;
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -371,7 +392,9 @@ if (isset($_POST['ubah_status_review'])) {
         .action-buttons {
             display: flex;
             gap: 0.5rem;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
         }
         
         /* Loading indicator */
@@ -528,25 +551,25 @@ if (isset($_POST['ubah_status_review'])) {
                                 </td>
                                 <td><?= date('d M Y', strtotime($review['created_at'])) ?></td>
                                 <td>
-                                    <div class="action-buttons">
-                                        <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailReviewModal" 
+                                    <div class="d-flex flex-column flex-md-row gap-1 gap-md-2">
+                                        <button class="btn btn-sm btn-info text-nowrap" data-bs-toggle="modal" data-bs-target="#detailReviewModal" 
                                             data-user="<?= htmlspecialchars($review['user_name']) ?>"
                                             data-item="<?= htmlspecialchars($review['destination_name'] ? $review['destination_name'] . ' (Destinasi)' : ($review['umkm_name'] ? $review['umkm_name'] . ' (UMKM)' : 'Tidak diketahui')) ?>"
                                             data-rating="<?= $review['rating'] ?>"
                                             data-comment="<?= htmlspecialchars($review['comment']) ?>"
                                             data-date="<?= date('d M Y H:i', strtotime($review['created_at'])) ?>">
-                                            <i class="bi bi-eye"></i> Detail
+                                            <i class="bi bi-eye"></i> <span class="d-none d-md-inline">Detail</span>
                                         </button>
                                         
-                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#ubahStatusReviewModal" 
+                                        <button class="btn btn-sm btn-warning text-nowrap" data-bs-toggle="modal" data-bs-target="#ubahStatusReviewModal" 
                                             data-id="<?= $review['id'] ?>"
                                             data-status="<?= $review['status'] ?>">
-                                            <i class="bi bi-pencil"></i> Status
+                                            <i class="bi bi-pencil"></i> <span class="d-none d-md-inline">Status</span>
                                         </button>
                                         
-                                        <a href="admin_reviews.php?hapus=<?= $review['id'] ?>&page=<?= $page ?>" class="btn btn-sm btn-danger" 
+                                        <a href="admin_reviews.php?hapus=<?= $review['id'] ?>&page=<?= $page ?>" class="btn btn-sm btn-danger text-nowrap" 
                                             onclick="return confirm('Yakin ingin menghapus review ini?')">
-                                            <i class="bi bi-trash"></i> Hapus
+                                            <i class="bi bi-trash"></i> <span class="d-none d-md-inline">Hapus</span>
                                         </a>
                                     </div>
                                 </td>

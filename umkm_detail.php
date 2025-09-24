@@ -132,6 +132,7 @@ $active_page = 'umkm';
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
             --primary-color: #4a6cf7;
@@ -307,6 +308,17 @@ $active_page = 'umkm';
             height: 4px;
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             border-radius: 2px;
+        }
+
+        /* Tambahkan style untuk peta Leaflet */
+        #map { 
+            height: 400px; 
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        .leaflet-popup-content h5 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
         }
 
         .btn-primary {
@@ -613,21 +625,19 @@ $active_page = 'umkm';
         <?php endif; ?>
         <div class="row">
             <!-- Informasi UMKM -->
-            <div class="col-lg-8">
-                <div class="detail-card">
+                <div class="col-lg-8">
+                    <div class="detail-card">
                     <h2 class="section-title">Tentang UMKM</h2>
                     <p class="mb-4 fs-6"><?= nl2br(htmlspecialchars($umkm['description'])) ?></p>
                     
                     <h4 class="section-title">Lokasi</h4>
-                    <div class="ratio ratio-16x9 mb-4">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.0584332535973!2d102.26348307450296!3d-3.797430343526186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e36b022abf277f1%3A0xf14a10374e488cef!2sBund.%20Simpang%20Lima%2C%20Kec.%20Ratu%20Samban%2C%20Kota%20Bengkulu%2C%20Bengkulu%2038222!5e0!3m2!1sid!2sid!4v1758202741855!5m2!1sid!2sid" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
+                    <?php if (!empty($umkm['latitude']) && !empty($umkm['longitude'])): ?>
+                        <div id="map" style="height: 400px; width: 100%; margin-bottom: 1rem; border-radius: 8px;"></div>
+                    <?php else: ?>
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i> Peta lokasi belum tersedia untuk UMKM ini.
+                        </div>
+                    <?php endif; ?>
                 </div>
                 
                 <!-- Ulasan Pelanggan -->
@@ -889,6 +899,7 @@ $active_page = 'umkm';
     </button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
         // Fungsi untuk menampilkan notifikasi
@@ -992,6 +1003,86 @@ $active_page = 'umkm';
             
         // Initialize on page load
         toggleBackToTop();
+
+        // Google Maps functionality
+        function initMap() {
+            <?php if (!empty($umkm['latitude']) && !empty($umkm['longitude'])): ?>
+                const umkmLocation = { 
+                    lat: <?= $umkm['latitude'] ?>, 
+                    lng: <?= $umkm['longitude'] ?> 
+                };
+                
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 15,
+                    center: umkmLocation,
+                    mapTypeControl: true,
+                    streetViewControl: true,
+                    fullscreenControl: true,
+                });
+                
+                const marker = new google.maps.Marker({
+                    position: umkmLocation,
+                    map: map,
+                    title: "<?= htmlspecialchars($umkm['name']) ?>",
+                    animation: google.maps.Animation.DROP,
+                });
+                
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `
+                        <div style="padding: 10px;">
+                            <h5 style="margin: 0 0 5px 0; color: #2563eb;"><?= htmlspecialchars($umkm['name']) ?></h5>
+                            <p style="margin: 0; font-size: 14px;"><?= htmlspecialchars($umkm['category']) ?></p>
+                            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">
+                                <i class="bi bi-geo-alt-fill"></i> 
+                                <?= !empty($umkm['location']) ? htmlspecialchars($umkm['location']) : 'Lokasi UMKM' ?>
+                            </p>
+                        </div>
+                    `,
+                });
+                
+                marker.addListener("click", () => {
+                    infoWindow.open(map, marker);
+                });
+                
+                // Buka info window secara otomatis
+                infoWindow.open(map, marker);
+            <?php endif; ?>
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            <?php if (!empty($umkm['latitude']) && !empty($umkm['longitude'])): ?>
+                // Inisialisasi peta
+                const map = L.map('map').setView([<?= $umkm['latitude'] ?>, <?= $umkm['longitude'] ?>], 15);
+                
+                // Tambahkan tile layer OpenStreetMap
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                
+                // Tambahkan marker
+                const marker = L.marker([<?= $umkm['latitude'] ?>, <?= $umkm['longitude'] ?>]).addTo(map);
+                
+                // Tambahkan popup
+                marker.bindPopup(`
+                    <div style="min-width: 200px;">
+                        <h5 style="margin: 0 0 8px 0; color: var(--primary-color);"><?= htmlspecialchars($umkm['name']) ?></h5>
+                        <p style="margin: 0 0 5px 0; font-size: 14px;">
+                            <strong>Kategori:</strong> <?= htmlspecialchars($umkm['category']) ?>
+                        </p>
+                        <p style="margin: 0; font-size: 12px; color: #666;">
+                            <i class="bi bi-geo-alt"></i> 
+                            <?= !empty($umkm['location']) ? htmlspecialchars($umkm['location']) : 'Lokasi UMKM' ?>
+                        </p>
+                    </div>
+                `).openPopup();
+                
+                // Style untuk peta
+                map.on('load', function() {
+                    document.getElementById('map').style.border = '2px solid #e9ecef';
+                });
+            <?php endif; ?>
+        });
     </script>
 </body>
 </html>

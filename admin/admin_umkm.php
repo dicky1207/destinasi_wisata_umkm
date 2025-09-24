@@ -57,6 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $operational_hours = $_POST['operational_hours'];
     $contact_phone = $_POST['contact_phone'];
     $contact_email = $_POST['contact_email'];
+
+    $latitude = $_POST['latitude'] ?? null;
+    $longitude = $_POST['longitude'] ?? null;
     
     // Handle file upload
     $image = $_POST['existing_image'] ?? '';
@@ -98,11 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Edit existing UMKM
         $stmt = $pdo->prepare("
             UPDATE umkms 
-            SET name = ?, description = ?, category = ?, image = ?, rating = ?, operational_hours = ?, contact_phone = ?, contact_email = ?
+            SET name = ?, description = ?, category = ?, image = ?, rating = ?, 
+                operational_hours = ?, contact_phone = ?, contact_email = ?, 
+                latitude = ?, longitude = ?
             WHERE id = ?
         ");
         
-        if ($stmt->execute([$name, $description, $category, $image, $rating, $operational_hours, $contact_phone, $contact_email, $id])) {
+        if ($stmt->execute([$name, $description, $category, $image, $rating, $operational_hours, $contact_phone, $contact_email, $latitude, $longitude, $id])) {
             $success = "UMKM berhasil diperbarui";
             header("Location: admin_umkm.php?success=" . urlencode($success));
             exit;
@@ -114,11 +119,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Add new UMKM
         $stmt = $pdo->prepare("
-            INSERT INTO umkms (name, description, category, image, rating, operational_hours, contact_phone, contact_email) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO umkms (name, description, category, image, rating, operational_hours, contact_phone, contact_email, latitude, longitude) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
-        if ($stmt->execute([$name, $description, $category, $image, $rating, $operational_hours, $contact_phone, $contact_email])) {
+        if ($stmt->execute([$name, $description, $category, $image, $rating, $operational_hours, $contact_phone, $contact_email, $latitude, $longitude])) {
             $success = "UMKM berhasil ditambahkan";
             header("Location: admin_umkm.php?success=" . urlencode($success));
             exit;
@@ -512,7 +517,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         data-rating="<?= $umkm['rating'] ?>"
                                         data-operational_hours="<?= htmlspecialchars($umkm['operational_hours']) ?>"
                                         data-contact_phone="<?= htmlspecialchars($umkm['contact_phone']) ?>"
-                                        data-contact_email="<?= htmlspecialchars($umkm['contact_email']) ?>">
+                                        data-contact_email="<?= htmlspecialchars($umkm['contact_email']) ?>"
+                                        data-latitude="<?= $umkm['latitude'] ?? '' ?>"
+                                        data-longitude="<?= $umkm['longitude'] ?? '' ?>">
                                         <i class="bi bi-pencil"></i> Edit
                                     </button>
                                     <a href="admin_umkm.php?hapus=<?= $umkm['id'] ?>" class="btn btn-sm btn-danger" 
@@ -586,6 +593,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="mb-3">
                                     <label for="contact_email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="contact_email" name="contact_email" value="<?= isset($umkm) ? $umkm['contact_email'] : '' ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="latitude" class="form-label">Latitude</label>
+                                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Contoh: -3.7956">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="longitude" class="form-label">Longitude</label>
+                                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Contoh: 102.2592">
                                 </div>
                             </div>
                         </div>
@@ -692,6 +707,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <label for="edit_contact_email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="edit_contact_email" name="contact_email" required>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="edit_latitude" class="form-label">Latitude</label>
+                                    <input type="text" class="form-control" id="edit_latitude" name="latitude" placeholder="Contoh: -3.7956">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit_longitude" class="form-label">Longitude</label>
+                                    <input type="text" class="form-control" id="edit_longitude" name="longitude" placeholder="Contoh: 102.2592">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -719,6 +742,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var operationalHours = button.getAttribute('data-operational_hours');
             var contactPhone = button.getAttribute('data-contact_phone');
             var contactEmail = button.getAttribute('data-contact_email');
+            var latitude = button.getAttribute('data-latitude');
+            var longitude = button.getAttribute('data-longitude');
             
             var modalTitle = editModal.querySelector('.modal-title');
             var modalId = editModal.querySelector('#edit_id');
@@ -731,6 +756,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var modalOperationalHours = editModal.querySelector('#edit_operational_hours');
             var modalContactPhone = editModal.querySelector('#edit_contact_phone');
             var modalContactEmail = editModal.querySelector('#edit_contact_email');
+            var modalLatitude = editModal.querySelector('#edit_latitude');
+            var modalLongitude = editModal.querySelector('#edit_longitude');
             
             modalTitle.textContent = 'Edit UMKM: ' + name;
             modalId.value = id;
@@ -742,6 +769,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             modalOperationalHours.value = operationalHours;
             modalContactPhone.value = contactPhone;
             modalContactEmail.value = contactEmail;
+            modalLatitude.value = latitude;
+            modalLongitude.value = longitude;
             
             // Show existing image preview
             if (image) {
