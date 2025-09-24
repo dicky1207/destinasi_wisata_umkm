@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Sep 2025 pada 05.33
+-- Waktu pembuatan: 24 Sep 2025 pada 06.03
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -176,10 +176,9 @@ INSERT INTO `umkms` (`id`, `name`, `description`, `category`, `image`, `rating`,
 (3, 'Sate Madura', 'Sate Madura Terenak Di Bengkulu', 'Makanan & Minuman', 'uploads/umkms/68cc0f2790246_1758203687.jpg', 5, 'Senin - Jumat: 08:00 - 17:00\nSabtu - Minggu: 09:00 - 15:00', '+62 812 3456 7890', 'info@satemadura.com', -3.80000000, 102.26000000, '2025-09-18 13:54:47', 0),
 (4, 'Cumi Crispy', 'Cumi Crispy Paling Laris Se-Kota Bengkulu', 'Makanan & Minuman', 'uploads/umkms/68cc1012001bd_1758203922.jpg', 4.2, 'Senin - Jumat: 08:00 - 22:00\r\nSabtu - Minggu: 07:00 - 18:00', '6282269302321', 'cumi_crispy_bkl@gmail.com', NULL, NULL, '2025-09-18 13:58:42', 0),
 (5, 'Nasi Goreng', 'Nasi goreng paling laris di Bengkulu', 'Makanan & Minuman', 'uploads/umkms/68cfeb3220b3a_1758456626.jpg', 0, 'Senin - Jumat: 08:00 - 17:00\r\nSabtu - Minggu: 09:00 - 15:00', '+62 812 3456 7890', 'info@mieayampangsitbuffettris.com', NULL, NULL, '2025-09-21 12:10:26', 0),
-(6, 'Gulai Curry', 'Curry terenak di Provinsi Bengkulu', 'Makanan & Minuman', 'uploads/umkms/68cfebbe091a3_1758456766.jpg', 0, 'Senin - Jumat: 08:00 - 17:00\r\nSabtu - Minggu: 09:00 - 15:00', '+62 812 3456 7890', 'info@mieayampangsitbuffettris.com', NULL, NULL, '2025-09-21 12:12:46', 0),
 (7, 'Soto Lamongan', 'Soto asli dari lamongan yang buka di Bengkulu', 'Makanan & Minuman', 'uploads/umkms/68cfebd87331e_1758456792.jpg', 0, 'Senin - Jumat: 08:00 - 17:00\r\nSabtu - Minggu: 09:00 - 15:00', '+62 812 3456 7890', 'info@mieayampangsitbuffettris.com', NULL, NULL, '2025-09-21 12:13:12', 0),
 (8, 'Pecel Ayam', 'Pecel ayam terlaris di Bengkulu', 'Makanan & Minuman', 'uploads/umkms/68cfec375038b_1758456887.jpg', 0, 'Senin - Jumat: 08:00 - 17:00\r\nSabtu - Minggu: 09:00 - 15:00', '+62 812 3456 7890', 'info@mieayampangsitbuffettris.com', NULL, NULL, '2025-09-21 12:14:47', 0),
-(9, 'Dimsum Yummy', 'Dimsum terlaris di Provinsi Bengkulu', 'Makanan & Minuman', 'uploads/umkms/68cfed25a3f7a_1758457125.jpg', 0, 'Senin - Jumat: 08:00 - 17:00\r\nSabtu - Minggu: 09:00 - 15:00', '+62 812 3456 7890', 'info@mieayampangsitbuffettris.com', NULL, NULL, '2025-09-21 12:18:45', 0);
+(9, 'Dimsum Yummy', 'Dimsum terlaris di Provinsi Bengkulu', 'Makanan & Minuman', 'uploads/umkms/68cfed25a3f7a_1758457125.jpg', 0, 'Senin - Jumat: 08:00 - 17:00\r\nSabtu - Minggu: 09:00 - 15:00', '+62 812 3456 7890', 'info@mieayampangsitbuffettris.com', -3.80762392, 102.27604525, '2025-09-21 12:18:45', 0);
 
 -- --------------------------------------------------------
 
@@ -207,9 +206,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `reset_token`, `reset_expires`, `points`, `avatar`, `phone`, `address`, `created_at`) VALUES
-(2, 'Administrator', 'admin@gmail.com', '$2y$10$hTR0L4z8a573FtKrgviXFOZZaB/oABwcnvR3yZtyU84c2UQLdRoeO', 'admin', NULL, NULL, 0, NULL, NULL, NULL, '2025-09-17 14:20:51'),
-(3, 'User 1', 'imansyahdicky007@gmail.com', '$2y$10$QpAoVpcPBgCtP4k.irXTReQQVrDC0HDjDctGrTdq1SW2Sdi8FPu.6', 'user', NULL, NULL, 190, 'uploads/avatars/user_3_1758518669.jpg', '', '', '2025-09-18 04:15:25'),
-(5, 'User Test', 'user2@gmail.com', '$2y$10$0qYQbGi47FwPd3CGN/Wnn.k4Cyo9P01uSxo5BelE2u3D52FFZwbmC', 'user', NULL, NULL, 160, 'uploads/avatars/user_5_1758474302.jpg', '081145371234', 'Jl. Pariwisata, Pantai Panjang', '2025-09-21 11:30:44');
+(2, 'Administrator', 'admin@gmail.com', '$2y$10$N0jm1VrrqU7/Pc8BnkgS4.ReTBt2OW/v1k1SF/sPjoliz6CEnNw4m', 'admin', NULL, NULL, 0, NULL, NULL, NULL, '2025-09-17 14:20:51'),
+(3, 'User 1', 'user@gmail.com', '$2y$10$77iJXuFrhtLVa3WnUf1fie2wlafhLjtOSllPnnt4GA/ImTmDsHsAS', 'user', NULL, NULL, 190, 'uploads/avatars/user_3_1758518669.jpg', '', '', '2025-09-18 04:15:25'),
+(5, 'User Test', 'user2@gmail.com', '$2y$10$BQvJ7QNSYp/aiOXYYo7Xieinpfx3pEX/PcxAnSQ7Unwr7RHRw9ew6', 'user', NULL, NULL, 160, 'uploads/avatars/user_5_1758474302.jpg', '081145371234', 'Jl. Pariwisata, Pantai Panjang', '2025-09-21 11:30:44');
 
 -- --------------------------------------------------------
 
